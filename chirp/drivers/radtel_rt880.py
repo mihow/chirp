@@ -59,27 +59,27 @@ LOG = logging.getLogger(__name__)
 @directory.register
 class RT880(radtel_rt900.RT900BT):
     """Radtel RT-880 / iRadio UV-98
-    
+
     This driver inherits from RT900BT and uses its communication protocol
     and memory structure. The RT-880 appears to be related to the RT-900
     series of mobile radios.
-    
+
     TESTING REQUIRED: This driver needs verification with actual hardware.
     """
     VENDOR = "Radtel"
     MODEL = "RT-880"
-    
+
     # Channel Configuration
     # NOTE: Verify actual channel count with real radio
     # Could be 128, 256, 512, or 999 channels
     _upper = 999  # Number of channels
     _mem_params = (_upper,)
-    
+
     # Programming Protocol Identification
     # NOTE: These values are inherited from RT-900 and need verification
     # When testing fails, capture actual values returned by radio
     _magic = b"PROGRAMBT80U"  # Initial handshake string
-    
+
     # Radio identification fingerprints
     # NOTE: Update these with actual values from RT-880
     # First fingerprint is checked during initial connection
@@ -90,7 +90,7 @@ class RT880(radtel_rt900.RT900BT):
     _fingerprint2 = [
         b"\x02\x00\x02\x60\x01\x03\x30\x04",  # From RT-900, needs verification
     ]
-    
+
     # Power Level Configuration
     # NOTE: Verify actual power output specifications
     # RT-880 specs may differ from RT-900
@@ -99,19 +99,19 @@ class RT880(radtel_rt900.RT900BT):
         chirp_common.PowerLevel("Middle", watts=4.00),
         chirp_common.PowerLevel("Low", watts=1.00)
     ]
-    
+
     # Frequency Band Configuration
     # NOTE: Verify actual frequency range supported by RT-880
     # May be more restricted than the wide range shown here
     VALID_BANDS = [(18000000, 1000000000)]
-    
+
     # Feature Availability Flags
     # NOTE: Verify which features RT-880 actually supports
     _has_bt_denoise = True      # Bluetooth and noise reduction
     _has_am_per_channel = True  # Per-channel AM mode
     _has_am_switch = not _has_am_per_channel  # Global AM mode switch
     _has_single_mode = True     # Single channel display mode
-    
+
     @classmethod
     def get_prompts(cls):
         rp = chirp_common.RadioPrompts()
@@ -147,6 +147,6 @@ class iRadioUV98(RT880):
     """iRadio UV-98 (Alternate branding of RT-880)"""
     VENDOR = "iRadio"
     MODEL = "UV-98"
-    
+
     # Same as RT880 but with different vendor/model name
     # All functionality inherited from RT880 class
